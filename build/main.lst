@@ -1,0 +1,161 @@
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.main,"ax",%progbits
+  18              		.align	1
+  19              		.global	main
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	main:
+  26              	.LFB131:
+  27              		.file 1 "Core/Src/main.c"
+   1:Core/Src/main.c **** #include <stdint.h>
+   2:Core/Src/main.c **** #include <stdio.h>
+   3:Core/Src/main.c **** #include "stm32f407xx.h"
+   4:Core/Src/main.c **** #include "uart.h"
+   5:Core/Src/main.c **** #include "adc.h"
+   6:Core/Src/main.c **** #include "systick.h"
+   7:Core/Src/main.c **** 
+   8:Core/Src/main.c **** uint32_t sensor_value;
+   9:Core/Src/main.c **** char snum[5];
+  10:Core/Src/main.c **** int main(void)
+  11:Core/Src/main.c **** {
+  28              		.loc 1 11 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  12:Core/Src/main.c **** 
+  13:Core/Src/main.c ****     usart2_tx_init();
+  38              		.loc 1 13 0
+  39 0002 FFF7FEFF 		bl	usart2_tx_init
+  40              	.LVL0:
+  14:Core/Src/main.c ****     adc1_channel3_init();
+  41              		.loc 1 14 0
+  42 0006 FFF7FEFF 		bl	adc1_channel3_init
+  43              	.LVL1:
+  15:Core/Src/main.c ****     start_conversion();
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s 			page 2
+
+
+  44              		.loc 1 15 0
+  45 000a FFF7FEFF 		bl	start_conversion
+  46              	.LVL2:
+  47              	.L2:
+  48              	.LBB2:
+  16:Core/Src/main.c ****     
+  17:Core/Src/main.c ****     while (1)
+  18:Core/Src/main.c ****     {
+  19:Core/Src/main.c ****         sensor_value = adc_read();
+  49              		.loc 1 19 0 discriminator 1
+  50 000e FFF7FEFF 		bl	adc_read
+  51              	.LVL3:
+  52 0012 0A4B     		ldr	r3, .L4
+  53 0014 1860     		str	r0, [r3]
+  20:Core/Src/main.c ****     //    printf("%lu",sensor_value);
+  21:Core/Src/main.c ****         itoa(sensor_value, snum, 10);
+  54              		.loc 1 21 0 discriminator 1
+  55 0016 0A4C     		ldr	r4, .L4+4
+  56 0018 0A22     		movs	r2, #10
+  57 001a 2146     		mov	r1, r4
+  58 001c FFF7FEFF 		bl	itoa
+  59              	.LVL4:
+  22:Core/Src/main.c ****         usart2_write_string("Sensor: ");
+  60              		.loc 1 22 0 discriminator 1
+  61 0020 0848     		ldr	r0, .L4+8
+  62 0022 FFF7FEFF 		bl	usart2_write_string
+  63              	.LVL5:
+  23:Core/Src/main.c ****         usart2_write_string(snum);
+  64              		.loc 1 23 0 discriminator 1
+  65 0026 2046     		mov	r0, r4
+  66 0028 FFF7FEFF 		bl	usart2_write_string
+  67              	.LVL6:
+  24:Core/Src/main.c ****         usart2_write('\n');
+  68              		.loc 1 24 0 discriminator 1
+  69 002c 0A20     		movs	r0, #10
+  70 002e FFF7FEFF 		bl	usart2_write
+  71              	.LVL7:
+  25:Core/Src/main.c ****         systickDelayMs(2000);
+  72              		.loc 1 25 0 discriminator 1
+  73 0032 4FF4FA60 		mov	r0, #2000
+  74 0036 FFF7FEFF 		bl	systickDelayMs
+  75              	.LVL8:
+  76 003a E8E7     		b	.L2
+  77              	.L5:
+  78              		.align	2
+  79              	.L4:
+  80 003c 00000000 		.word	sensor_value
+  81 0040 00000000 		.word	snum
+  82 0044 00000000 		.word	.LC0
+  83              	.LBE2:
+  84              		.cfi_endproc
+  85              	.LFE131:
+  87              		.comm	snum,5,4
+  88              		.comm	sensor_value,4,4
+  89              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+  90              		.align	2
+  91              	.LC0:
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s 			page 3
+
+
+  92 0000 53656E73 		.ascii	"Sensor: \000"
+  92      6F723A20 
+  92      00
+  93              		.text
+  94              	.Letext0:
+  95              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  96              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  97              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  98              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  99              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 100              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 101              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 102              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 103              		.file 10 "Core/Inc/adc.h"
+ 104              		.file 11 "Core/Inc/uart.h"
+ 105              		.file 12 "Core/Inc/systick.h"
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s:18     .text.main:00000000 $t
+C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s:25     .text.main:00000000 main
+C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s:80     .text.main:0000003c $d
+                            *COM*:00000004 sensor_value
+                            *COM*:00000005 snum
+C:\Users\mdmt3\AppData\Local\Temp\ccjXFRsR.s:90     .rodata.main.str1.4:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+usart2_tx_init
+adc1_channel3_init
+start_conversion
+adc_read
+itoa
+usart2_write_string
+usart2_write
+systickDelayMs

@@ -1,0 +1,120 @@
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"systick.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.systickDelayMs,"ax",%progbits
+  18              		.align	1
+  19              		.global	systickDelayMs
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	systickDelayMs:
+  26              	.LFB130:
+  27              		.file 1 "Core/Src/systick.c"
+   1:Core/Src/systick.c **** #include "stm32f407xx.h"
+   2:Core/Src/systick.c **** #define SYSTICK_LOAD_VAL        16000
+   3:Core/Src/systick.c **** #define CTRL_ENABLE             (1U << 0)
+   4:Core/Src/systick.c **** #define CTRL_CLKSRC             (1U << 2)
+   5:Core/Src/systick.c **** #define CTRL_COUNTFLAG          (1U << 16)
+   6:Core/Src/systick.c **** 
+   7:Core/Src/systick.c **** void systickDelayMs(int delay){
+  28              		.loc 1 7 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+   8:Core/Src/systick.c ****     
+   9:Core/Src/systick.c ****     //Reload with number of clocks per millisecond
+  10:Core/Src/systick.c ****     SysTick->LOAD = SYSTICK_LOAD_VAL;
+  34              		.loc 1 10 0
+  35 0000 0A4B     		ldr	r3, .L4
+  36 0002 4FF47A52 		mov	r2, #16000
+  37 0006 5A60     		str	r2, [r3, #4]
+  11:Core/Src/systick.c **** 
+  12:Core/Src/systick.c ****     // Clear systick current value register
+  13:Core/Src/systick.c ****     SysTick->VAL = 0;
+  38              		.loc 1 13 0
+  39 0008 0022     		movs	r2, #0
+  40 000a 9A60     		str	r2, [r3, #8]
+  14:Core/Src/systick.c **** 
+  15:Core/Src/systick.c ****     //Enable systick and select internal clk src
+  16:Core/Src/systick.c ****     SysTick->CTRL = CTRL_ENABLE | CTRL_CLKSRC;
+  41              		.loc 1 16 0
+  42 000c 0521     		movs	r1, #5
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s 			page 2
+
+
+  43 000e 1960     		str	r1, [r3]
+  44              	.LVL1:
+  45              	.LBB2:
+  17:Core/Src/systick.c ****     
+  18:Core/Src/systick.c ****     for (int i = 0; i < delay; i++){
+  46              		.loc 1 18 0
+  47 0010 05E0     		b	.L2
+  48              	.LVL2:
+  49              	.L3:
+  19:Core/Src/systick.c ****         while ((SysTick->CTRL & CTRL_COUNTFLAG) == 0){}
+  50              		.loc 1 19 0 discriminator 1
+  51 0012 064B     		ldr	r3, .L4
+  52 0014 1B68     		ldr	r3, [r3]
+  53 0016 13F4803F 		tst	r3, #65536
+  54 001a FAD0     		beq	.L3
+  18:Core/Src/systick.c ****         while ((SysTick->CTRL & CTRL_COUNTFLAG) == 0){}
+  55              		.loc 1 18 0 discriminator 2
+  56 001c 0132     		adds	r2, r2, #1
+  57              	.LVL3:
+  58              	.L2:
+  18:Core/Src/systick.c ****         while ((SysTick->CTRL & CTRL_COUNTFLAG) == 0){}
+  59              		.loc 1 18 0 is_stmt 0 discriminator 1
+  60 001e 8242     		cmp	r2, r0
+  61 0020 F7DB     		blt	.L3
+  62              	.LBE2:
+  20:Core/Src/systick.c ****     }
+  21:Core/Src/systick.c **** 
+  22:Core/Src/systick.c ****     SysTick->CTRL = 0; 
+  63              		.loc 1 22 0 is_stmt 1
+  64 0022 0022     		movs	r2, #0
+  65              	.LVL4:
+  66 0024 014B     		ldr	r3, .L4
+  67 0026 1A60     		str	r2, [r3]
+  68 0028 7047     		bx	lr
+  69              	.L5:
+  70 002a 00BF     		.align	2
+  71              	.L4:
+  72 002c 10E000E0 		.word	-536813552
+  73              		.cfi_endproc
+  74              	.LFE130:
+  76              		.text
+  77              	.Letext0:
+  78              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  79              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  80              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+  81              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ARM GAS  C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 systick.c
+C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s:18     .text.systickDelayMs:00000000 $t
+C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s:25     .text.systickDelayMs:00000000 systickDelayMs
+C:\Users\mdmt3\AppData\Local\Temp\ccoXFd3G.s:72     .text.systickDelayMs:0000002c $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
