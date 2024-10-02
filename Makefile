@@ -40,7 +40,10 @@ Core/Src/main.c \
 Core/Src/uart.c \
 Core/Src/adc.c \
 Core/Src/system_stm32f4xx.c \
-Core/Src/systick.c
+Core/Src/systick.c \
+Core/Src/tim.c \
+Core/Src/syscalls.c \
+Core/Src/i2c.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -164,8 +167,8 @@ $(BUILD_DIR):
 # clean up
 #######################################
 clean:
-	-rmdir -fR $(BUILD_DIR)
-	//TODO: config to make the "make clean work in VScode"
+	-rm -rf $(BUILD_DIR)	
+#TODO: config to make the "make clean work in VScode"
 
 #######################################
 
